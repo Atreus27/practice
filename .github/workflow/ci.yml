@@ -1,0 +1,11 @@
+name : CI/CD Pipeline
+
+permission :
+security-event: write
+
+on:
+  push:
+    branches:
+      - main
+      - 'release/*'
+  
