@@ -1,10 +1,13 @@
 name: CI/CD Pipeline
+
 permissions:
   security-events: write
+
 on:
   push:
     branches:
       - zeus
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,8 +31,8 @@ jobs:
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
 
-      - name: Run Tests
-        run: pytest tests/
+      - name: Run Tests with Coverage
+        run: python -m pytest --cov=app --cov-report=xml tests/
 
       - name: Install SonarQube Scanner
         run: |
@@ -38,16 +41,14 @@ jobs:
           echo "$HOME/sonar-scanner-4.7.0.2747-linux/bin" >> $GITHUB_PATH
 
       - name: Run SonarQube Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           sonar-scanner \
             -Dsonar.projectKey=web-app \
             -Dsonar.sources=. \
             -Dsonar.host.url=${{ secrets.SONAR_URL }} \
-            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.language=py \
+            -Dsonar.login=$SONAR_TOKEN \
+            -Dsonar.python.coverage.reportPaths=coverage.xml \
+            -Dsonar.sourceEncoding=UTF-8 \
             -X
-
-
-
-
-##
