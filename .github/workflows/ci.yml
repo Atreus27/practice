@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
+      # 1️⃣ Checkout code
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
@@ -31,17 +31,17 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
 
-      # 4️⃣ Explicitly install pytest and pytest-cov
+      # 4️⃣ Ensure pytest and coverage are installed
       - name: Ensure pytest is installed
         run: python -m pip install pytest pytest-cov
 
-      # 5️⃣ Set PYTHONPATH for imports
+      # 5️⃣ Set PYTHONPATH
       - name: Set PYTHONPATH
         run: echo "PYTHONPATH=$(pwd)" >> $GITHUB_ENV
 
       # 6️⃣ Run tests with coverage
       - name: Run Tests with Coverage
-        run: python -m pytest --cov=app --cov-report=xml tests/
+        run: python -m pytest -v -s --cov=app --cov-report=xml tests/
 
       # 7️⃣ Install SonarQube Scanner
       - name: Install SonarQube Scanner
@@ -63,3 +63,17 @@ jobs:
             -Dsonar.python.coverage.reportPaths=coverage.xml \
             -Dsonar.sourceEncoding=UTF-8 \
             -X
+
+      # 9️⃣ Build Docker image
+      - name: Build Docker Image
+        run: |
+          docker build -t web-app:latest .
+
+      # 🔟 Run Docker container (optional smoke test)
+      - name: Run Docker Container
+        run: |
+          docker run -d --name web-app -p 5000:5000 web-app:latest
+          sleep 5
+          curl -f http://localhost:5000/ || (docker logs web-app && exit 1)
+          docker stop web-app
+          docker rm web-app
