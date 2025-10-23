@@ -39,7 +39,7 @@ jobs:
       - name: 🧩 Set PYTHONPATH
         run: echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
 
-      # 6️⃣ Debug files
+      # 6️⃣ Debug repo contents
       - name: 📂 List repo files
         run: ls -R
 
