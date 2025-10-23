@@ -39,9 +39,9 @@ jobs:
       - name: 🧩 Set PYTHONPATH
         run: echo "PYTHONPATH=$PWD" >> $GITHUB_ENV
 
-      # 6️⃣ Debug test collection (optional)
-      - name: 🕵️ Debug test collection
-        run: python -m pytest --collect-only -v tests/
+      # 6️⃣ Debug files
+      - name: 📂 List repo files
+        run: ls -R
 
       # 7️⃣ Run tests with coverage
       - name: 🧪 Run tests with coverage
@@ -58,12 +58,11 @@ jobs:
       - name: 🔍 Run SonarQube Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_URL: ${{ secrets.SONAR_URL }}
         run: |
           sonar-scanner \
             -Dsonar.projectKey=web-app \
             -Dsonar.sources=. \
-            -Dsonar.host.url=$SONAR_URL \
+            -Dsonar.host.url=${{ secrets.SONAR_URL }} \
             -Dsonar.login=$SONAR_TOKEN \
             -Dsonar.language=py \
             -Dsonar.python.coverage.reportPaths=coverage.xml \
