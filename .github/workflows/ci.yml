@@ -1,7 +1,7 @@
 name : CI/CD Pipeline
 
-permission :
-security-event: write
+permission:
+security-events: write
 
 on:
   push:
