@@ -67,6 +67,6 @@ jobs:
             -Dsonar.projectKey=web-app \
             -Dsonar.sources=. \
             -Dsonar.host.url=http://35.154.73.125:9000 \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.python.coverage.reportPaths=pytest-report.xml \
             -Dsonar.verbose=true
