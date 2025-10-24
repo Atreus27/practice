@@ -68,6 +68,4 @@ jobs:
             -Dsonar.sources=. \
             -Dsonar.host.url=http://35.154.73.125:9000 \
             -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.source=. \
-            -Dsonar.language=py \
-            -X
+           
