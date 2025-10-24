@@ -68,5 +68,4 @@ jobs:
             -Dsonar.sources=. \
             -Dsonar.host.url=http://35.154.73.125:9000 \
             -Dsonar.token=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.python.coverage.reportPaths=pytest-report.xml \
             -Dsonar.verbose=true
